@@ -15,8 +15,7 @@
     
     if(self){
         NSUserDefaults *saved = [NSUserDefaults standardUserDefaults];
-        self.questions = [saved objectForKey:@"myquestions"];
-        if (self.questions == nil) {
+    
             self.questions = @[
                           @{@"question":@"What am I?" , @"awnser1":@"A Cat" , @"awnser2":@"A Dog", @"awnser3":@"A Fish", @"rightawnser":@"A Human"},
                           @{@"question":@"Where do you encounter Zygons?" , @"awnser1":@"In a Banana" , @"awnser2":@"In the sea", @"awnser3":@"In Star Trek.", @"rightawnser":@"In Doctor who."},
@@ -32,11 +31,9 @@
                           ].mutableCopy;
             for (int i = 10; i > 1; i--) [self.questions exchangeObjectAtIndex:i - 1 withObjectAtIndex:arc4random_uniform(i)];
             
-            [saved setObject:self.questions forKey:@"myquestions"];
-        }
-        else{
-            
-        }
+        
+        
+        
     }
     return self;
 }

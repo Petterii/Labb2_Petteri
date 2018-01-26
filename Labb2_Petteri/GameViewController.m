@@ -10,11 +10,7 @@
 #import "Questions.h"
 
 @interface GameViewController ()
-@property (weak, nonatomic) IBOutlet UILabel *label2;
-@property (weak, nonatomic) IBOutlet UILabel *label1;
-@property (weak, nonatomic) IBOutlet UILabel *label3;
-@property (weak, nonatomic) IBOutlet UILabel *label4;
-
+@property (weak, nonatomic) IBOutlet UIButton *restartGame;
 @property (weak, nonatomic) IBOutlet UITextView *questionText;
 @property (weak, nonatomic) IBOutlet UIButton *awnButton1;
 @property (weak, nonatomic) IBOutlet UIButton *awnButton2;
@@ -32,13 +28,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
     self.q = [[Questions alloc] initWordSetup];
-    
-    NSUserDefaults *rightA = [NSUserDefaults standardUserDefaults];
-    self.score = [[rightA objectForKey:@"saved"][2] intValue];
-    self.wrong = [[rightA objectForKey:@"saved"][3] intValue];
-    // Do any additional setup after loading the view.
     [self doRound];
     
     
@@ -46,28 +36,34 @@
 - (IBAction)buttonPress:(id)sender {
     UIButton *s = sender;
     
-
-     NSUserDefaults *rightA = [NSUserDefaults standardUserDefaults];
-    
      if([s.titleLabel.text isEqualToString:self.insertQ[@"rightawnser"]]){
          self.score ++;
          }
      else{
          self.wrong ++;
      }
-    NSNumber *mScore = [NSNumber numberWithInt:self.score];
-    NSNumber *badScore = [NSNumber numberWithInt:self.wrong];
     
-   // @[@(self.score), @(self.wrong)]
-    
-    NSArray *saved = [NSArray arrayWithObjects:self.insertQ,s.titleLabel.text,mScore,badScore,nil];
-    [rightA setObject:saved forKey:@"saved"];
+    if ((self.score+self.wrong) >= 5) {
+        self.questionText.text = [NSString stringWithFormat:@"Rigth: %d     Wrong:%d",self.score,self.wrong];
+        self.awnButton1.enabled = NO;
+        self.awnButton2.enabled = NO;
+        self.awnButton3.enabled = NO;
+        self.awnButton4.enabled = NO;
+        [self.awnButton1 setTitle:@"Game" forState:UIControlStateNormal];
+        [self.awnButton2 setTitle:@"Over" forState:UIControlStateNormal];
+        [self.awnButton3 setTitle:@"The" forState:UIControlStateNormal];
+        [self.awnButton4 setTitle:@"End" forState:UIControlStateNormal];
+    }
+    else{
+        [self doRound];
+    }
 }
 
 
 
+
 -(void)doRound{
-  
+    
     self.insertQ = [self.q getQoA:(self.score+self.wrong)];
     self.questionText.text = self.insertQ[@"question"];
     [self.q randomizeAwnsers];
@@ -77,8 +73,19 @@
     [self.awnButton3 setTitle:self.insertQ[self.q.slump[2]] forState:UIControlStateNormal];
     [self.awnButton4 setTitle:self.insertQ[self.q.slump[3]] forState:UIControlStateNormal];
    
+    
 }
 
+- (IBAction)restartGame:(id)sender {
+  
+    self.awnButton1.enabled = YES;
+    self.awnButton2.enabled = YES;
+    self.awnButton3.enabled = YES;
+    self.awnButton4.enabled = YES;
+    self.score = 0;
+    self.wrong = 0;
+    [self doRound];
+}
 
 
 - (void)didReceiveMemoryWarning {
@@ -86,7 +93,7 @@
     // Dispose of any resources that can be recreated.
 }
 
-
+/*
 #pragma mark - Navigation
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
@@ -94,6 +101,6 @@
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
 }
-
+*/
 
 @end
