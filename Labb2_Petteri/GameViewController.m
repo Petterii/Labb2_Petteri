@@ -29,6 +29,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.q = [[Questions alloc] initWordSetup];
+    self.restartGame.hidden = YES;
     [self doRound];
     
     
@@ -49,6 +50,7 @@
         self.awnButton2.enabled = NO;
         self.awnButton3.enabled = NO;
         self.awnButton4.enabled = NO;
+            self.restartGame.hidden = NO;
         [self.awnButton1 setTitle:@"Game" forState:UIControlStateNormal];
         [self.awnButton2 setTitle:@"Over" forState:UIControlStateNormal];
         [self.awnButton3 setTitle:@"The" forState:UIControlStateNormal];
@@ -82,6 +84,7 @@
     self.awnButton2.enabled = YES;
     self.awnButton3.enabled = YES;
     self.awnButton4.enabled = YES;
+    self.restartGame.hidden = YES;
     self.score = 0;
     self.wrong = 0;
     [self doRound];
